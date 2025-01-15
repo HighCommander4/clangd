@@ -325,6 +325,9 @@ jobs:
         ${{ env.CLANGD_DIR }}/bin/clangd-index-server${{ matrix.config.binary_extension }}
         ${{ env.CLANGD_DIR }}/bin/clangd-index-server-monitor${{ matrix.config.binary_extension }}
         ${{ env.CLANGD_DIR }}/lib/clang
+    - name: Check binary compatibility
+      if: matrix.config.name == 'linux'
+      run: .github/workflows/lib_compat_test.py --lib=GLIBC_2.18 "$CLANGD_DIR/bin/clangd"
     - name: Upload clangd asset
       uses: actions/upload-release-asset@v1.0.1
       env:
@@ -353,9 +356,6 @@ jobs:
         asset_name: clangd_indexing_tools-${{ matrix.config.name }}-${{ env.TAG_NAME }}.zip
         asset_path: indexing-tools.zip
         asset_content_type: application/zip
-    - name: Check binary compatibility
-      if: matrix.config.name == 'linux'
-      run: .github/workflows/lib_compat_test.py --lib=GLIBC_2.18 "$CLANGD_DIR/bin/clangd"
   # Create the release, and upload the artifacts to it.
   finalize:
     runs-on: ubuntu-latest
