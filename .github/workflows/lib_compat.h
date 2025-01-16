@@ -11,6 +11,7 @@
 #define FORCE_SYMBOL_VERSION(sym, version) \
   __asm__(".symver " #sym "," #sym "@" #version)
 
+FORCE_SYMBOL_VERSION(exp, GLIBC_2.2.5);
 FORCE_SYMBOL_VERSION(exp2, GLIBC_2.2.5);
 FORCE_SYMBOL_VERSION(expf, GLIBC_2.2.5);
 FORCE_SYMBOL_VERSION(log, GLIBC_2.2.5);
